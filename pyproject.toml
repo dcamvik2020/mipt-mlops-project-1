@@ -16,6 +16,7 @@ numpy = "^1.22.3"
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.16.0"
 pytest = "^6.2.5"
+isort = "^5.12.0"
 
 
 [tool.black]
@@ -28,6 +29,21 @@ src_paths = ["mipt-mlops-project-1"]
 profile = "black"
 line_length = 90
 lines_after_imports = 2
+
+
+[tool.nbqa.config]
+black = "pyproject.toml"
+isort = "pyproject.toml"
+flake8 = "setup.cfg"
+
+
+[tool.nbqa.addopts]
+flake8 = ["--extend-ignore=E402"]
+
+
+[tool.nbqa.mutate]
+black = 1
+isort = 1
 
 
 [build-system]

@@ -37,3 +37,6 @@ jobs:
         run: poetry run python3 mipt_mlops_project_1/train.py
       - name: Check infer.py
         run: poetry run python3 mipt_mlops_project_1/infer.py
+      - name: Check Fire interface
+        run: poetry run python3 mipt_mlops_project_1/commands.py train
+             poetry run python3 mipt_mlops_project_1/commands.py infer

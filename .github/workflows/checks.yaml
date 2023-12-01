@@ -30,10 +30,10 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
       - name: Install pre-commit
-        run: pre-commit install
+        run: poetry run pre-commit install
       - name: Check all githooks (pre-commit)
-        run: pre-commit run -a
+        run: poetry run pre-commit run -a
       - name: Check train.py
-        run: python3 train.py
+        run: poetry run python3 train.py
       - name: Check infer.py
-        run: python3 infer.py
+        run: poetry run python3 infer.py

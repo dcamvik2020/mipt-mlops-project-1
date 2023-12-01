@@ -21,6 +21,7 @@ def main():
     print("STEP 3 : save preds ... ", end="")
     test_preds = model.predict(X_test)
     pd.Series(test_preds).to_csv("./data/test_preds.csv")
+    print("OK")
 
     print("STEP 4 : eval model ... ", end="")
     test_data = pd.concat([X_test, y_test], axis=1)

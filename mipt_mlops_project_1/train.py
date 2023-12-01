@@ -2,9 +2,8 @@ import os
 import sys
 
 import pandas as pd
-
-from .utils.data import load_data, save_data
-from .utils.pipeline import train_model
+from utils.data import load_data, save_data
+from utils.pipeline import train_model
 
 
 def main():

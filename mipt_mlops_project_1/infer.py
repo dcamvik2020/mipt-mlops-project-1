@@ -3,10 +3,9 @@ import pickle as pkl
 import sys
 
 import pandas as pd
-
-from .utils.data import load_data
-from .utils.metrics import metrics, round_metrics
-from .utils.pipeline import eval_model
+from utils.data import load_data
+from utils.metrics import metrics, round_metrics
+from utils.pipeline import eval_model
 
 
 def main():

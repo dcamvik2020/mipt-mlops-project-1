@@ -2,85 +2,35 @@ import os
 import sys
 
 import pandas as pd
-from utils.data import load_data, save_data
-from utils.logging import logging_print
-from utils.pipeline import train_model
+
+from .utils.data import load_data, save_data
+from .utils.pipeline import train_model
 
 
 def main():
-    """
-    while True:
-        logging = input("Enable logging (yes/no): ")
-        if logging in {"yes", "no"}:
-            break
+    print("STEP 1 : save data ... ", end="")
+    save_data("./data/")
+    X_train, y_train = load_data("./data/", "train.csv")
+    train = pd.concat([X_train, y_train], axis=1)
+    X_test, y_test = load_data("./data/", "test.csv")
+    test = pd.concat([X_test, y_test], axis=1)
+    print("OK")
+    print("Train data shape:" + str(train.shape))
+    print("Test data shape:" + str(test.shape))
+    print()
 
-    data_dir = input("Save data to directory: ")
-    if data_dir == "":
-        data_dir = './data/'
+    print("STEP 2 : train & save model ... ", end="")
+    model, model_params = train_model(train, "./models/", "model.pkl")
+    print("OK")
+    print()
 
-    data_file = input("Save data to file: ")
-    if data_file == "":
-        data_file = "tmp_data.csv"
-
-    model_dir = input("Save model to directory: ")
-    if model_dir == "":
-        model_dir = './models/'
-
-    model_file = input("Save model to file: ")
-    if model_file == "":
-        model_file = "catboost.pkl"
-    """
-
-    logging = "yes"
-    data_dir = "./data/"
-    data_file = "tmp_data.csv"
-    model_dir = "./models/"
-    model_file = "model.pkl"
-
-    logging = logging == "yes"
-    # logging_low = 1 - logging # if logging, only high-level logging
-    logging_low = False
-
-    # ______________________________________
-
-    logging_print(logging=logging, line="STEP 1 : load & save data ... ", end="")
-
-    save_data(path_to_save=data_dir, fname=data_file, logging=logging_low)
-    data_trn, data_tst = load_data(
-        load_path=data_dir, fname=data_file, logging=logging_low
-    )
-    data = pd.concat([data_trn, data_tst], axis=0)
-
-    # dms = data_memory_size
-    dms = data.memory_usage(index=True, deep=True).sum()
-    gb = dms // (1024**3)
-    mb = (dms % (1024**3)) // (1024**2)
-    kb = (dms % (1024**2)) // 1024
-    memory_str = f"{gb} GB, {mb} MB, {kb} KB"
-
-    logging_print(logging=logging, line="OK")
-    logging_print(logging=logging, line="Data shape:" + str(data.shape))
-    logging_print(logging=logging, line="Data memory usage:" + memory_str)
-    logging_print(logging=logging, line="-----------------------------------------")
-
-    # ______________________________________
-
-    logging_print(logging=logging, line="STEP 2 : train & save model ... ", end="")
-    train_model(
-        data_trn, model_dirname=model_dir, model_fname=model_file, logging=logging_low
-    )
-    logging_print(logging=logging, line="OK")
-    logging_print(logging=logging, line="-----------------------------------------")
-
+    print("Model hyperparameters:")
+    for key in model_params:
+        print("    " + key + " = " + str(model_params[key]))
     return 0
 
 
 if __name__ == "__main__":
-    print("Current working directory:", os.getcwd())
     if os.getcwd().split("/")[-1] != "mipt_mlops_project_1":
-        print("Move to project directory...", end="")
         os.chdir("./mipt_mlops_project_1")
-        print("OK")
-        print("Current working directory:", os.getcwd())
-
     sys.exit(main())

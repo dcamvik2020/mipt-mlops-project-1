@@ -1,42 +1,27 @@
+import typing as tp
+
 import pandas as pd
 from sklearn.datasets import load_boston
-from utils.logging import logging_print
 
 
-def save_data(path_to_save="./data/", fname="tmp_data.csv", logging=True):
-    logging_print(logging=logging, line=f"save data to {path_to_save + fname}")
-    logging_print(logging=logging, line="START ...")
+TRAIN_RATIO = 0.7
 
+
+def save_data(path_to_save: str = "./data/") -> None:
     data = load_boston()
-
     X = pd.DataFrame(data.data, columns=data.feature_names)
     y = pd.Series(data.target, name="target")
-
     data = pd.concat([X, y], axis=1)
-    data.to_csv(path_to_save + fname, index=False)
+    train_size = int(data.shape[0] * TRAIN_RATIO)
+    train, test = data[:train_size], data[train_size:]
+    train.to_csv(path_to_save + "train.csv", index=False)
+    test.to_csv(path_to_save + "test.csv", index=False)
 
-    logging_print(logging=logging, line="SUCCESS!")
-    logging_print(logging=logging, line="Data location:" + path_to_save + fname)
-    logging_print(logging=logging)
 
-
-def load_data(load_path="./data/", fname="tmp_data.csv", logging=True):
-    logging_print(logging=logging, line=f"load data from {load_path + fname}")
-    logging_print(logging=logging, line="START ...")
-
+def load_data(
+    load_path: str = "./data/", fname: str = "train.csv"
+) -> tp.Tuple[pd.DataFrame, pd.Series]:
     data = pd.read_csv(load_path + fname)
-
-    # dms = data_memory_size
-    dms = data.memory_usage(index=True, deep=True).sum()
-    gb = dms // (1024**3)
-    mb = (dms % (1024**3)) // (1024**2)
-    kb = (dms % (1024**2)) // 1024
-    memory_str = f"{gb} GB, {mb} MB, {kb} KB"
-
-    logging_print(logging=logging, line="SUCCESS!")
-    logging_print(logging=logging, line="Data shape:" + str(data.shape))
-    logging_print(logging=logging, line="Data memory usage:" + memory_str)
-    logging_print(logging=logging)
-
-    # return train & test, test = last 100 objects
-    return data[:-100], data[-100:]
+    X = data[data.columns[:-1]]
+    y = data[data.columns[-1]]
+    return X, y

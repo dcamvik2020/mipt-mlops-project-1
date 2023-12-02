@@ -2,13 +2,18 @@ import os
 import sys
 
 import pandas as pd
-from utils.data import load_data, save_data
+from utils.data import load_data
+
+# from utils.data import save_data
 from utils.pipeline import train_model
 
 
 def main():
-    print("STEP 1 : save data ... ", end="")
-    save_data("./data/")
+    # print("STEP 1 : save data ... ", end="")
+    # save_data("./data/")
+
+    print("STEP 1 : load data", end="")
+
     X_train, y_train = load_data("./data/", "train.csv")
     train = pd.concat([X_train, y_train], axis=1)
     X_test, y_test = load_data("./data/", "test.csv")

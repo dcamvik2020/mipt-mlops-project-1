@@ -1,14 +1,17 @@
 import os
 import sys
 
+import hydra
 import pandas as pd
+from config import Params
 from utils.data import load_data
 
 # from utils.data import save_data
 from utils.pipeline import train_model
 
 
-def main():
+@hydra.main(config_path="../config_dir", config_name="config", version_base="2.5")
+def main(cfg: Params) -> None:
     # print("STEP 1 : save data ... ", end="")
     # save_data("./data/")
 
@@ -24,7 +27,8 @@ def main():
     print()
 
     print("STEP 2 : train & save model ... ", end="")
-    model, model_params = train_model(train, "./models/", "model.pkl")
+    # print(f"{cfg['model'] = }")
+    model, model_params = train_model(train, cfg["model"], "./models/", "model.pkl")
     print("OK")
     print()
 

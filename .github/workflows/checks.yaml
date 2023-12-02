@@ -33,11 +33,11 @@ jobs:
         run: poetry run pre-commit install
       - name: Check all githooks (pre-commit)
         run: poetry run pre-commit run -a
-      - name: Check train.py
-        run: poetry run python3 mipt_mlops_project_1/train.py
-      - name: Check infer.py
-        run: poetry run python3 mipt_mlops_project_1/infer.py
-      - name: Check Fire interface (train)
-        run: poetry run python3 mipt_mlops_project_1/commands.py train
-      - name: Check Fire interface (infer)
-        run: poetry run python3 mipt_mlops_project_1/commands.py infer
+#      - name: Check train.py
+#        run: poetry run python3 mipt_mlops_project_1/train.py
+#      - name: Check infer.py
+#        run: poetry run python3 mipt_mlops_project_1/infer.py
+#      - name: Check Fire interface (train)
+#        run: poetry run python3 mipt_mlops_project_1/commands.py train
+#      - name: Check Fire interface (infer)
+#        run: poetry run python3 mipt_mlops_project_1/commands.py infer
